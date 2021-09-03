@@ -1,25 +1,21 @@
 #ifndef ARESTA_H
 #define ARESTA_H
 
-#include "vertice.h"
-
 class Aresta {
 private:
-  int nomeAresta;
-  int quantVertices;
-  int atualVertice;
-  Vertice* vertices;
+  int peso;
+  int verticeAtual;
+  int verticeDestino;
 public:
-  Aresta(int quantArestas, int nomeAresta);
+  Aresta(int peso, int verticeAtual, int verticeDestino);
   Aresta();
   ~Aresta();
-  void setNomeAresta(int nomeAresta);
-  void setQuantVertices(int quantVertices);
-  void setVertices();
-  int getNomeAresta();
-  int getQuantVertices();
-  void novaVertice(int peso, int arestaDestino);
-  Vertice* getVertices();
+  void setPeso(int peso);
+  int getPeso();
+  void setVerticeAtual(int atual);
+  int getVerticeAtual();
+  void setVerticeDestino(int destino);
+  int getVerticeDestino();
 };
 
 #endif

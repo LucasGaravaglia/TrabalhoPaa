@@ -55,12 +55,6 @@ int fila::dequeue() {
   }
 }
 
-void fila::show() {
-  No* temp = this->first;
-  cout << "Fila= [ ";
-  while (temp != NULL) {
-    cout << temp->value << " ";
-    temp = temp->next;
-  }
-  cout << "]\n";
+int fila::show() {
+  return this->first->value;
 }

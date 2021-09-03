@@ -3,27 +3,38 @@
 
 #include "vertice.h"
 #include "aresta.h"
+#include "pilha.h"
+#include "fila.h"
 
 class Grafo {
 private:
-  int quantArestas;
-  int atualAresta;
+  int quantVertices;
+  int atualVertice;
   bool orientado;
-  Aresta* arestas;
-public:
-  Grafo(int quantArestas, bool orientado, Aresta* arestas);
-  ~Grafo();
+  Vertice* vertices;
 
-  void setAresta(Aresta aresta);
-  void setQuantArestas(int quantArestas);
+  pilha* Pilha;
+  fila* Fila;
+  int* cor;
+  int* d;
+  int* f;
+  int* proc;
+  int timestamp;
+public:
+  Grafo(int quantVertices, bool orientado);
+  ~Grafo();
+  void auxConstructor();
+  void setVertice(Vertice vertice);
+  void setQuantVertices(int quantVertices);
   void setOrientado(bool orientado);
-  Aresta getAresta(int pos);
-  int getQuantArestas();
+  Vertice* getVertice(int pos);
+  int getQuantVertices();
 
   bool getOrientado();
   void buscaLargura(int origem);
+  void buscaLarguraAux(int atual);
   void buscaProfundidade(int origem);
-  void bellmanFord(int origem);
+  int* bellmanFord(int origem);
   void kruskal();
 };
 

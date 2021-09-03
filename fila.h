@@ -15,7 +15,7 @@ public:
   bool isEmpty();
   void queue(int item);
   int dequeue();
-  void show();
+  int show();
 
 };
 

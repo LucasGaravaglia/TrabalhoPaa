@@ -4,42 +4,33 @@
 
 using namespace std;
 
-Aresta::Aresta(int quantVertices, int nomeAresta) {
-  this->nomeAresta = nomeAresta;
-  this->quantVertices = quantVertices;
-  this->vertices = new Vertice[quantVertices];
-  this->atualVertice = 0;
+Aresta::Aresta(int peso, int verticeAtual, int verticeDestino) {
+  this->peso = peso;
+  this->verticeAtual = verticeAtual;
+  this->verticeDestino = verticeDestino;
 }
 Aresta::Aresta() {
-  this->nomeAresta = 0;
-  this->quantVertices = 0;
-  this->atualVertice = 0;
+  this->peso = 0;
+  this->verticeAtual = 0;
+  this->verticeDestino = 0;
 }
 Aresta::~Aresta() {
-  delete this->vertices;
 }
-void Aresta::setQuantVertices(int quantVertices) {
-  this->quantVertices = quantVertices;
+void Aresta::setPeso(int peso) {
+  this->peso = peso;
 }
-int Aresta::getQuantVertices() {
-  return this->quantVertices;
+int Aresta::getPeso() {
+  return this->peso;
 }
-void Aresta::setNomeAresta(int nomeAresta) {
-  this->nomeAresta = nomeAresta;
+void Aresta::setVerticeAtual(int atual) {
+  this->verticeAtual = verticeAtual;
 }
-int Aresta::getNomeAresta() {
-  return this->nomeAresta;
+int Aresta::getVerticeAtual() {
+  return this->verticeAtual;
 }
-void Aresta::setVertices() {
-  delete(this->vertices);
-  this->vertices = new Vertice[this->quantVertices];
+void Aresta::setVerticeDestino(int destino) {
+  this->verticeDestino = destino;
 }
-void Aresta::novaVertice(int peso, int arestaDestino) {
-  this->vertices[this->atualVertice].setArestaAtual(this->nomeAresta);
-  this->vertices[this->atualVertice].setArestaDestino(arestaDestino);
-  this->vertices[this->atualVertice].setPeso(peso);
-  this->atualVertice++;
-}
-Vertice* Aresta::getVertices() {
-  return this->vertices;
+int Aresta::getVerticeDestino() {
+  return this->verticeDestino;
 }

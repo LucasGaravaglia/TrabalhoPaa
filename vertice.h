@@ -1,21 +1,26 @@
 #ifndef VERTICE_H
 #define VERTICE_H
 
+#include "aresta.h"
+
 class Vertice {
 private:
-  int peso;
-  int arestaAtual;
-  int arestaDestino;
+  int nomeVertice;
+  int quantArestas;
+  int atualAresta;
+  Aresta* arestas;
 public:
-  Vertice(int peso, int arestaAtual, int arestaDestino);
+  Vertice(int quantArestas, int nomeVertice);
   Vertice();
   ~Vertice();
-  void setPeso(int peso);
-  int getPeso();
-  void setArestaAtual(int atual);
-  int getArestaAtual();
-  void setArestaDestino(int destino);
-  int getArestaDestino();
+  void setNomeVertice(int nomeVertice);
+  void setQuantArestas(int quantVertices);
+  void sortAresta();
+  void setArestas();
+  int getNomeVertice();
+  int getQuantArestas();
+  void novaAresta(int peso, int verticeDestino);
+  Aresta* getArestas();
 };
 
 #endif
