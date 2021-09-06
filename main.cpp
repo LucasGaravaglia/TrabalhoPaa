@@ -10,11 +10,11 @@
 
 int main() {
   Arquivo* arq = new Arquivo();
-  Grafo* grafo = grafo = arq->lerGrafo("entrada.txt");
+  Grafo* grafo;
   int entrada, loop = 1,vertice;
   string path = "entrada.txt";
   while (loop) {
-    // system("clear");
+    system("clear");
     cout << "Selecione uma opção digitando o numero:" << endl;
     cout << "(0) Ler arquivo" << endl;
     cout << "(1) Busca em profundidade" << endl;

@@ -3,7 +3,6 @@
 
 #include "vertice.h"
 #include "aresta.h"
-#include "pilha.h"
 #include "fila.h"
 
 class Grafo {
@@ -13,7 +12,6 @@ private:
   bool orientado;
   Vertice* vertices;
 
-  pilha* Pilha;
   fila* Fila;
   int* cor;
   int* d;
@@ -31,9 +29,9 @@ public:
   int getQuantVertices();
 
   bool getOrientado();
-  void buscaLargura(int origem);
-  void buscaLarguraAux(int atual);
   void buscaProfundidade(int origem);
+  void buscaProfundidadeAux(int atual);
+  void buscaLargura(int origem);
   int* bellmanFord(int origem);
   void kruskal();
   bool busca(int Vertice1, int Vertice2, Aresta* arestas, int tam);

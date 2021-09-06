@@ -3,34 +3,39 @@
 #include <iostream>
 
 using namespace std;
-
+//Construtor sobrecarregado ca classe vertice
 Vertice::Vertice(int quantArestas, int nomeVertice) {
   this->nomeVertice = nomeVertice;
   this->quantArestas = quantArestas;
   this->atualAresta = 0;
   this->arestas = (Aresta*)malloc(sizeof(Aresta));
 }
+//Construtor da classe Vertice
 Vertice::Vertice() {
   this->nomeVertice = 0;
   this->quantArestas = 0;
   this->atualAresta = 0;
 }
+//Destrutor da classe vertice
 Vertice::~Vertice() {
 }
-
+//Setter da variavel QuantArestas
 void Vertice::setQuantArestas(int quantArestas) {
   this->quantArestas = quantArestas;
 }
+//Método que retorna a quantidade de arestas criadas no vertice
 int Vertice::getQuantArestas() {
   return this->atualAresta;
 }
+//Setter da variavel NomeVertice
 void Vertice::setNomeVertice(int nomeVertice) {
   this->nomeVertice = nomeVertice;
 }
+//Getter da variavel NomeVertice
 int Vertice::getNomeVertice() {
   return this->nomeVertice;
 }
-
+//Método que cuida da criação de uma aresta nesse vertice
 void Vertice::novaAresta(int peso, int verticeDestino, int verticeAtual) {
   this->arestas = (Aresta*)realloc(this->arestas,sizeof(Aresta) * (this->atualAresta + 1));
   this->arestas[this->atualAresta].setVerticeAtual(verticeAtual);
@@ -39,7 +44,7 @@ void Vertice::novaAresta(int peso, int verticeDestino, int verticeAtual) {
   this->atualAresta++;
   this->sortAresta();
 }
-
+//Método que ordena o vetor de arestas em ordem crescente.
 void Vertice::sortAresta() {
   Aresta* tempAresta = new Aresta[this->quantArestas];
   Aresta temp;
@@ -64,7 +69,7 @@ void Vertice::sortAresta() {
     this->arestas[index].setVerticeDestino(temp.getVerticeDestino());
   }
 }
-
+//Getter do vetor de arestas
 Aresta* Vertice::getArestas() {
   return this->arestas;
 }

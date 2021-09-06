@@ -1,21 +1,32 @@
 #ifndef ARESTA_H
 #define ARESTA_H
 
+/**
+ * Classe responsável por armazenar os dados das arestas
+ */
 class Aresta {
 private:
-  int peso;
-  int verticeAtual;
-  int verticeDestino;
+  int peso;//Atributo que armazena o peso de cada vértice.
+  int verticeAtual;//Atributo que armazena o nome da vertice a quem pertence.
+  int verticeDestino;//Atributo que armazena o nome da vertice de destino
 public:
-  Aresta(int peso, int verticeAtual, int verticeDestino);
+  //Construtor da classe
   Aresta();
+  //Construtor da classe sobrecarregado para receber os dados
+  Aresta(int peso, int verticeAtual, int verticeDestino);
+  //Destrutor da classe
   ~Aresta();
-  void setAresta(Aresta other);
+  //Setter do atributo Peso
   void setPeso(int peso);
-  int getPeso();
+  //Setter do atributo Vertice atual
   void setVerticeAtual(int atual);
-  int getVerticeAtual();
+  //Setter do atributo Vertice destino
   void setVerticeDestino(int destino);
+  //Getter do atributo Peso
+  int getPeso();
+  //Getter do atributo Vertice atual
+  int getVerticeAtual();
+  //Getter do atributo Vertice destino
   int getVerticeDestino();
 };
 

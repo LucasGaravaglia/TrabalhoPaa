@@ -2,6 +2,9 @@
 #include "vertice.h"
 #include "aresta.h"
 #include <new>
+#include <iostream>
+
+using namespace std;
 
 #define nil -1
 #define inf INT32_MAX
@@ -44,7 +47,7 @@ void Grafo::setOrientado(bool orientado) {
 bool Grafo::getOrientado() {
   return this->orientado;
 }
-void Grafo::buscaLargura(int origem) {
+void Grafo::buscaProfundidade(int origem) {
   this->cor = new int[this->quantVertices];
   this->d = new int[this->quantVertices];
   this->f = new int[this->quantVertices];
@@ -53,16 +56,14 @@ void Grafo::buscaLargura(int origem) {
     this->cor[i] = branco;
     this->proc[i] = nil;
   }
-  this->Pilha = new pilha();
   this->timestamp = 0;
-  this->buscaLarguraAux(origem);
+  this->buscaProfundidadeAux(origem);
   delete(this->cor);
   delete(this->d);
   delete(this->f);
-  delete(this->Pilha);
 }
 
-void Grafo::buscaLarguraAux(int atual) {
+void Grafo::buscaProfundidadeAux(int atual) {
   cout << atual;
   this->cor[atual] = cinza;
   this->timestamp++;
@@ -71,7 +72,7 @@ void Grafo::buscaLarguraAux(int atual) {
     if (cor[this->getVertice(atual)->getArestas()[i].getVerticeDestino()] == branco) {
       cout << " - ";
       this->proc[this->getVertice(atual)->getArestas()[i].getVerticeDestino()] = atual;
-      this->buscaLarguraAux(this->getVertice(atual)->getArestas()[i].getVerticeDestino());
+      this->buscaProfundidadeAux(this->getVertice(atual)->getArestas()[i].getVerticeDestino());
     }
   }
   this->cor[atual] = preto;
@@ -79,7 +80,7 @@ void Grafo::buscaLarguraAux(int atual) {
   this->f[atual] = timestamp;
 }
 
-void Grafo::buscaProfundidade(int origem) {
+void Grafo::buscaLargura(int origem) {
   this->cor = new int[this->quantVertices];
   this->d = new int[this->quantVertices];
   this->proc = new int[this->quantVertices];
@@ -234,7 +235,7 @@ bool Grafo::busca(int Vertice1, int Vertice2, Aresta* arestas, int tam) {
   }
   int dest;
   if (flag1 == 2) {
-    return this->recur(Vertice1, Vertice2, arestas, tam,tam);
+    return this->recur(Vertice1, Vertice2, arestas, tam,0);
   }
   return (flag1 == 2);
 }
@@ -242,7 +243,7 @@ bool Grafo::busca(int Vertice1, int Vertice2, Aresta* arestas, int tam) {
 bool Grafo::recur(int Vertice1, int Vertice2, Aresta* arestas, int tam,int flag) {
   bool res = false;
   if (Vertice1 == Vertice2) return true;
-  if (flag == 0) return false;
+  if (flag == tam) return false;
   for (int i = 0;i < tam;i++) {
     if (arestas[i].getVerticeAtual() == Vertice1 || Vertice1 == arestas[i].getVerticeDestino()) {
       if (arestas[i].getVerticeAtual() == Vertice1) {
@@ -250,7 +251,7 @@ bool Grafo::recur(int Vertice1, int Vertice2, Aresta* arestas, int tam,int flag)
       }else {
         Vertice1 = arestas[i].getVerticeAtual();
       }
-      res = recur(Vertice1, Vertice2, arestas, tam,flag-1) || res;
+      res = recur(Vertice1, Vertice2, arestas, tam,flag+1) || res;
     }
   }
   return res;

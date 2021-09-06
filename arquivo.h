@@ -15,11 +15,9 @@ public:
   //Construtor da classe Arquivo
   Arquivo();
 
-  /* Método que escreve o cabeçalho no arquivo binário de árvore
-   * Entrada:      Cabeçalho de árvore
-   * Retorno:      Nenhum
-   * Pré-condição: A variavel nomeSaida deve possuir o nome correto do arquivo de saida
-   * Pós-condição: O cabeçalho é escrito no arquivo binário de árvore
+  /* Método que le o arquivo e retorna um grafo instanciado.
+   * Entrada:      Caminho do arquivo.
+   * Pré-condição: Caminho de arquivo válido.
   */
   Grafo* lerGrafo(string path);
 

@@ -3,12 +3,12 @@
 #include "fila.h"
 
 using namespace std;
-
+//Construtor da fila
 fila::fila() {
   this->first = NULL;
   this->last = NULL;
 }
-
+//Destrutor da fila
 fila::~fila() {
   No* temp;
   while (this->first != NULL) {
@@ -18,11 +18,11 @@ fila::~fila() {
   }
   this->last = NULL;
 }
-
+//Método que retorna verdadeiro se tem algo no No first ou false caso contrario
 bool fila::isEmpty() {
   return this->first == NULL;
 }
-
+//Método que enfileira um item na fila
 void fila::queue(int item) {
   No* newNo = new No;
   newNo->value = item;
@@ -35,8 +35,7 @@ void fila::queue(int item) {
   }
   this->last = newNo;
 }
-
-
+//Método que desinfileira um item da fila
 int fila::dequeue() {
   if (isEmpty()) {
     cout << "A fila esta vazia!\n";
@@ -54,7 +53,7 @@ int fila::dequeue() {
     return item;
   }
 }
-
+//Método que mostra a primeira posição da fila.
 int fila::show() {
   return this->first->value;
 }

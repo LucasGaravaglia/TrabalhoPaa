@@ -10,6 +10,10 @@
 Arquivo::Arquivo() {
 }
 
+/* Método que le o arquivo e retorna um grafo instanciado.
+ * Entrada:      Caminho do arquivo.
+ * Pré-condição: Caminho de arquivo válido.
+*/
 Grafo* Arquivo::lerGrafo(string path) {
   string line;
   string temp;
