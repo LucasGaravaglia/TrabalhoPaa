@@ -19,11 +19,16 @@ Aresta::~Aresta() {
 void Aresta::setPeso(int peso) {
   this->peso = peso;
 }
+void Aresta::setAresta(Aresta other) {
+  this->peso = other.getPeso();
+  this->verticeAtual = other.getVerticeAtual();
+  this->verticeDestino = other.getVerticeDestino();
+}
 int Aresta::getPeso() {
   return this->peso;
 }
 void Aresta::setVerticeAtual(int atual) {
-  this->verticeAtual = verticeAtual;
+  this->verticeAtual = atual;
 }
 int Aresta::getVerticeAtual() {
   return this->verticeAtual;

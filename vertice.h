@@ -19,7 +19,7 @@ public:
   void setArestas();
   int getNomeVertice();
   int getQuantArestas();
-  void novaAresta(int peso, int verticeDestino);
+  void novaAresta(int peso, int verticeDestino,int verticeAtual);
   Aresta* getArestas();
 };
 

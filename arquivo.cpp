@@ -44,11 +44,11 @@ Grafo* Arquivo::lerGrafo(string path) {
           line = line.substr(3);
         }
         if (grafo->getOrientado()) {
-          grafo->getVertice(atual)->novaAresta(stoi(line), dest);
+          grafo->getVertice(atual)->novaAresta(stoi(line), dest,atual);
         }
         else {
-          grafo->getVertice(atual)->novaAresta(stoi(line), dest);
-          grafo->getVertice(dest)->novaAresta(stoi(line), atual);
+          grafo->getVertice(atual)->novaAresta(stoi(line), dest, atual);
+          grafo->getVertice(dest)->novaAresta(stoi(line), atual,dest);
         }
       }
     }

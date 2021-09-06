@@ -8,7 +8,7 @@ Vertice::Vertice(int quantArestas, int nomeVertice) {
   this->nomeVertice = nomeVertice;
   this->quantArestas = quantArestas;
   this->atualAresta = 0;
-  this->arestas = new Aresta[quantArestas];
+  this->arestas = (Aresta*)malloc(sizeof(Aresta));
 }
 Vertice::Vertice() {
   this->nomeVertice = 0;
@@ -17,6 +17,7 @@ Vertice::Vertice() {
 }
 Vertice::~Vertice() {
 }
+
 void Vertice::setQuantArestas(int quantArestas) {
   this->quantArestas = quantArestas;
 }
@@ -29,12 +30,10 @@ void Vertice::setNomeVertice(int nomeVertice) {
 int Vertice::getNomeVertice() {
   return this->nomeVertice;
 }
-void Vertice::setArestas() {
-  this->arestas = new Aresta[this->quantArestas];
-}
 
-void Vertice::novaAresta(int peso, int verticeDestino) {
-  this->arestas[this->atualAresta].setVerticeAtual(this->nomeVertice);
+void Vertice::novaAresta(int peso, int verticeDestino, int verticeAtual) {
+  this->arestas = (Aresta*)realloc(this->arestas,sizeof(Aresta) * (this->atualAresta + 1));
+  this->arestas[this->atualAresta].setVerticeAtual(verticeAtual);
   this->arestas[this->atualAresta].setVerticeDestino(verticeDestino);
   this->arestas[this->atualAresta].setPeso(peso);
   this->atualAresta++;

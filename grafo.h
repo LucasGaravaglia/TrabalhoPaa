@@ -36,6 +36,8 @@ public:
   void buscaProfundidade(int origem);
   int* bellmanFord(int origem);
   void kruskal();
+  bool busca(int Vertice1, int Vertice2, Aresta* arestas, int tam);
+  bool recur(int Vertice1, int Vertice2, Aresta* arestas, int tam,int flag);
 };
 
 #endif
