@@ -7,11 +7,11 @@
 using namespace std;
 
 #define nil -1
-#define inf INT32_MAX
+#define inf INT16_MAX
 #define branco 0
 #define cinza 1
 #define preto 2
-
+//Construtor da classe.
 Grafo::Grafo(int quantVertices, bool orientado) {
   this->quantVertices = quantVertices;
   this->orientado = orientado;
@@ -19,34 +19,46 @@ Grafo::Grafo(int quantVertices, bool orientado) {
   this->vertices = new Vertice[quantVertices];
   this->auxConstructor();
 }
+//Metodo auxiliar para o contrutor que instancia o ponteiro paravertices
 void Grafo::auxConstructor() {
   for (int i = 0;i < quantVertices;i++) {
     this->vertices[i].setQuantArestas(quantVertices + 1);
     this->vertices[i].setNomeVertice(i);
   }
 }
+//Destrutor da classe
 Grafo::~Grafo() {
   this->quantVertices = 0;
   this->orientado = false;
 }
+//Setter do atributo vertice
 void Grafo::setVertice(Vertice vertice) {
   this->vertices[this->atualVertice] = vertice;
 }
+//Getter do atributo Vertice dado uma posicao do vetor.
 Vertice* Grafo::getVertice(int pos) {
   return &this->vertices[pos];
 }
+//Setter do atributo quantVertices
 void Grafo::setQuantVertices(int quantVertices) {
   this->quantVertices = quantVertices;
 }
+//Getter do atributo QuantVertices
 int Grafo::getQuantVertices() {
   return this->quantVertices;
 }
+//Setter do atributo quantVertices
 void Grafo::setOrientado(bool orientado) {
   this->orientado = orientado;
 }
+//Getter do atributo Orientado
 bool Grafo::getOrientado() {
   return this->orientado;
 }
+/* Metodo que inicia todas as variaveis para a busca em profundidade.
+ * Entrada:      Vertice que comeca a busca.
+ * Pré-condição: Grafo estar previamente montado.
+ */
 void Grafo::buscaProfundidade(int origem) {
   this->cor = new int[this->quantVertices];
   this->d = new int[this->quantVertices];
@@ -62,7 +74,10 @@ void Grafo::buscaProfundidade(int origem) {
   delete(this->d);
   delete(this->f);
 }
-
+/* Metodo recursivo que faz a busca em profundidade "faz a visita em todos os vertices"
+ * Entrada:      Vertice atual.
+ * Pré-condição: Grafo estar previamente montado.
+ */
 void Grafo::buscaProfundidadeAux(int atual) {
   cout << atual;
   this->cor[atual] = cinza;
@@ -79,7 +94,10 @@ void Grafo::buscaProfundidadeAux(int atual) {
   timestamp++;
   this->f[atual] = timestamp;
 }
-
+/* Metodo responsável por fazer a busca em largura.
+ * Entrada:      Vertice que comeca a busca.
+ * Pré-condição: Grafo estar previamente montado.
+ */
 void Grafo::buscaLargura(int origem) {
   this->cor = new int[this->quantVertices];
   this->d = new int[this->quantVertices];
@@ -115,38 +133,72 @@ void Grafo::buscaLargura(int origem) {
   }
 
 }
-
-int* Grafo::bellmanFord(int origem) {
+/* Metodo responsável por fazer o calculo de menor caminho para os próximos vertices usando bellmanFord.
+ * Entrada:      Vertice inicial.
+ * Pré-condição: Grafo estar previamente montado, e ser orientado.
+ */
+bool Grafo::bellmanFord(int origem) {
   if (!this->orientado) {
     cout << "Grafo nao orientado." << endl;
     return 0;
   }
   else {
     int pesoTemp;
-    this->Fila = new fila();
-    this->Fila->queue(origem);
+    int pai[this->quantVertices] = {};
     this->proc = new int[this->quantVertices];
     this->d = new int[this->quantVertices];
     for (int i = 0;i < this->quantVertices;i++) {
       this->proc[i] = nil;
       this->d[i] = inf;
+      pai[i] = i;
     }
     this->d[origem] = 0;
-    while (!this->Fila->isEmpty()) {
-      cout << this->getVertice(this->Fila->show())->getQuantArestas() << " ";
-      for (int i = 0;i < this->getVertice(this->Fila->show())->getQuantArestas();i++) {
-        pesoTemp = this->d[this->getVertice(this->Fila->show())->getArestas()[i].getVerticeAtual()] + this->getVertice(this->Fila->show())->getArestas()[i].getPeso();
-        this->Fila->queue(this->getVertice(this->Fila->show())->getArestas()->getVerticeDestino());
-        if (pesoTemp < d[this->getVertice(this->Fila->show())->getArestas()->getVerticeDestino()]) {
-          this->d[this->getVertice(this->Fila->show())->getArestas()->getVerticeDestino()] = pesoTemp;
+
+    for (int k = 0;k < this->quantVertices-1;k++){
+      for (int i = 0;i < this->quantVertices;i++) {
+        for (int j = 0;j < this->vertices[i].getQuantArestas();j++) {
+          if (d[this->vertices[i].getArestas()[j].getVerticeDestino()] > this->vertices[i].getArestas()[j].getPeso() + this->d[i]) {
+            // cout << "Entrou " << i << " " << this->vertices[i].getArestas()[j].getVerticeDestino() << endl;
+            d[this->vertices[i].getArestas()[j].getVerticeDestino()] = this->vertices[i].getArestas()[j].getPeso() + this->d[i];
+            pai[this->vertices[i].getArestas()[j].getVerticeDestino()] = i;
+          }
         }
       }
-      this->Fila->dequeue();
     }
-    return this->d;
+    cout << "origem: " << origem << endl;
+    for (int i = 0;i < this->quantVertices;i++) {
+      cout << "destino: " << i << " dist.: " << d[i] << " caminho: ";
+      this->showBellmanFord(pai, i, origem);
+      if (i != pai[i]) 
+        cout <<  " - " << i;
+      cout << endl;
+    }
+    for (int i = 0;i < this->quantVertices - 1;i++) {
+      for (int j = 0;j < this->vertices[i].getQuantArestas();j++) {
+        if (d[this->vertices[i].getArestas()[j].getVerticeDestino()] < 0) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }
-
+/* Metodo responsável por exibir o menor caminho.
+ * Entrada:      vetor de pai, posicao e atual.
+ * Pré-condição: Nenhum.
+ */
+void Grafo::showBellmanFord(int* vet, int pos, int inicial) {
+  if (vet[pos] == inicial) {
+    cout << vet[pos];
+  }else {
+    showBellmanFord(vet, vet[pos], inicial);
+    cout << " - "<< vet[pos];
+  }
+}
+/* Metodo responsável por gerar uma arvore geradora minima.
+ * Entrada:      Nenhum.
+ * Pré-condição: Grafo estar previamente montado.
+ */
 void Grafo::kruskal() {
   int vertices[this->quantVertices];
   int peso = 0;
@@ -203,7 +255,8 @@ void Grafo::kruskal() {
   arestas[0].setVerticeDestino(tempArestas[0].getVerticeDestino());
   int j = 1;
   for (int i = 1;i < countQuantArestas && j < quantVertices;i++) {
-    if (!this->busca(tempArestas[i].getVerticeAtual(), tempArestas[i].getVerticeDestino(), arestas, j)) {
+    // if (!this->busca(tempArestas[i].getVerticeAtual(), tempArestas[i].getVerticeDestino(), arestas, j)) {
+    if (!this->recur(tempArestas[i].getVerticeAtual(), tempArestas[i].getVerticeDestino(), arestas, j,0)) {
       arestas[j].setPeso(tempArestas[i].getPeso());
       arestas[j].setVerticeAtual(tempArestas[i].getVerticeAtual());
       arestas[j].setVerticeDestino(tempArestas[i].getVerticeDestino());
@@ -239,7 +292,10 @@ bool Grafo::busca(int Vertice1, int Vertice2, Aresta* arestas, int tam) {
   }
   return (flag1 == 2);
 }
-
+/* Metodo auxiliar para verificar se a vertice pertence ao menor grafo gerador
+ * Entrada:      Nenhum.
+ * Pré-condição: Nenhum.
+ */  
 bool Grafo::recur(int Vertice1, int Vertice2, Aresta* arestas, int tam,int flag) {
   bool res = false;
   if (Vertice1 == Vertice2) return true;
