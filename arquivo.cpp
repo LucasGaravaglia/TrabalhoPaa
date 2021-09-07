@@ -19,7 +19,6 @@ Grafo* Arquivo::lerGrafo(string path) {
   string temp;
   int dest, atual;
   ifstream f;
-  char* newLine;
   Grafo* grafo;
   f.open(path, ios::in);
   if (f.is_open()) {
