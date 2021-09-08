@@ -8,7 +8,6 @@ Vertice::Vertice(int quantArestas, int nomeVertice) {
   this->nomeVertice = nomeVertice;
   this->quantArestas = quantArestas;
   this->atualAresta = 0;
-  this->arestas = (Aresta*)malloc(sizeof(Aresta));
 }
 //Construtor da classe Vertice
 Vertice::Vertice() {
@@ -37,7 +36,6 @@ int Vertice::getNomeVertice() {
 }
 //Método que cuida da criação de uma aresta nesse vertice
 void Vertice::novaAresta(int peso, int verticeDestino, int verticeAtual) {
-  this->arestas = (Aresta*)realloc(this->arestas,sizeof(Aresta) * (this->atualAresta + 1));
   this->arestas[this->atualAresta].setVerticeAtual(verticeAtual);
   this->arestas[this->atualAresta].setVerticeDestino(verticeDestino);
   this->arestas[this->atualAresta].setPeso(peso);

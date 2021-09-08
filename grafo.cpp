@@ -233,7 +233,6 @@ void Grafo::kruskal() {
   //ordena todas as arestas
   int menor;
   int pesoTemp;
-  Aresta* trocaAresta = new Aresta();
   for (int i = 0;i < countQuantArestas;i++) {
     menor = i;
     pesoTemp = arestas[i].getPeso();
@@ -255,8 +254,7 @@ void Grafo::kruskal() {
   arestas[0].setVerticeDestino(tempArestas[0].getVerticeDestino());
   int j = 1;
   for (int i = 1;i < countQuantArestas && j < quantVertices;i++) {
-    // if (!this->busca(tempArestas[i].getVerticeAtual(), tempArestas[i].getVerticeDestino(), arestas, j)) {
-    if (!this->recur(tempArestas[i].getVerticeAtual(), tempArestas[i].getVerticeDestino(), arestas, j,0)) {
+    if (!this->busca(tempArestas[i].getVerticeAtual(), tempArestas[i].getVerticeDestino(), arestas, j)) {
       arestas[j].setPeso(tempArestas[i].getPeso());
       arestas[j].setVerticeAtual(tempArestas[i].getVerticeAtual());
       arestas[j].setVerticeDestino(tempArestas[i].getVerticeDestino());

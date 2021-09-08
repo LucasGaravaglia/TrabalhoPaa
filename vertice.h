@@ -10,7 +10,7 @@ private:
   int quantArestas;
   //Atributo que armazena a quantidade atual de arestas
   int atualAresta;
-  Aresta* arestas;
+  Aresta arestas[100];
 public:
   //Construtor da classe Vertice
   Vertice();
