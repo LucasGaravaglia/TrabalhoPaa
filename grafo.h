@@ -59,6 +59,10 @@ public:
  * Pré-condição: Grafo estar previamente montado, e ser orientado.
  */
   bool bellmanFord(int origem);
+/* Metodo responsável por exibir as arvore geradora minima.
+ * Entrada:      Nenhum.
+ * Pré-condição: Grafo estar previamente montado.
+ */
   void showBellmanFord(int* vet, int pos, int inicial);
 /* Metodo responsável por gerar uma arvore geradora minima.
  * Entrada:      Nenhum.
@@ -69,8 +73,7 @@ public:
  * Entrada:      Nenhum.
  * Pré-condição: Nenhum.
  */  
-  bool recur(int Vertice1, int Vertice2, Aresta* arestas, int tam, int flag);
-  bool busca(int Vertice1, int Vertice2, Aresta* arestas, int tam);
+  bool busca(int Vertice1, int Vertice2, Aresta* arestas, int tam, int flag);
 };
 
 #endif
