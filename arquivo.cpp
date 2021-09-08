@@ -26,7 +26,8 @@ Grafo* Arquivo::lerGrafo(string path) {
       getline(f, line);
       temp = line.substr(10);
       getline(f, line);
-      grafo = new Grafo(stoi(line.substr(2)), (temp == "sim"));
+      cout << (temp[0] == 's');
+      grafo = new Grafo(stoi(line.substr(2)), (temp[0] == 's'));
       while (!f.eof()) {
         if (line.length() > 0) {
           getline(f, line);

@@ -10,7 +10,8 @@
 int main() {
   Arquivo* arq = new Arquivo();
   Grafo* grafo;
-  int entrada, loop = 1,vertice;
+  int neg;
+  int entrada, loop = 1, vertice;
   string path = "entrada.txt";
   cout << "Digite o nome do arquivo local para ler\nExemplo 'entrada.txt.'\n";
   fflush(stdin);
@@ -66,9 +67,13 @@ int main() {
         fflush(stdin);
         cin >> vertice;
         cout << "Bellman-Ford:\n";
-        grafo->bellmanFord(vertice);
+        neg = grafo->bellmanFord(vertice);
         cout << "\n";
-      }catch (exception e) {
+        if (!neg) {
+          cout << "Existem valores negativos, resposta nao confiável.\n";
+        }
+      }      
+catch (exception e) {
         cout << "Erro ao calcular menor caminho com bellman-ford.\n";
       }
       cout << "Digite continuar para continuar:";

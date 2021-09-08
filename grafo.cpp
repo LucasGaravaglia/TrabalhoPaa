@@ -62,18 +62,13 @@ bool Grafo::getOrientado() {
  */
 void Grafo::buscaProfundidade(int origem) {
   this->cor = new int[this->quantVertices];
-  this->d = new int[this->quantVertices];
-  this->f = new int[this->quantVertices];
   this->proc = new int[this->quantVertices];
   for (int i = 0;i < this->quantVertices;i++) {
     this->cor[i] = branco;
     this->proc[i] = nil;
   }
-  this->timestamp = 0;
   this->buscaProfundidadeAux(origem);
   delete(this->cor);
-  delete(this->d);
-  delete(this->f);
 }
 /* Metodo recursivo que faz a busca em profundidade "faz a visita em todos os vertices"
  * Entrada:      Vertice atual.
@@ -83,7 +78,6 @@ void Grafo::buscaProfundidadeAux(int atual) {
   cout << atual;
   this->cor[atual] = cinza;
   this->timestamp++;
-  this->d[atual] = this->timestamp;
   for (int i = 0;i < this->getVertice(atual)->getQuantArestas();i++) {
     if (cor[this->getVertice(atual)->getArestas()[i].getVerticeDestino()] == branco) {
       cout << " - ";
@@ -92,8 +86,6 @@ void Grafo::buscaProfundidadeAux(int atual) {
     }
   }
   this->cor[atual] = preto;
-  timestamp++;
-  this->f[atual] = timestamp;
 }
 /* Metodo responsável por fazer a busca em largura.
  * Entrada:      Vertice que comeca a busca.
@@ -153,8 +145,8 @@ bool Grafo::bellmanFord(int origem) {
     for (int k = 0;k < this->quantVertices-1;k++){
       for (int i = 0;i < this->quantVertices;i++) {
         for (int j = 0;j < this->vertices[i].getQuantArestas();j++) {
-          if (d[this->vertices[i].getArestas()[j].getVerticeDestino()] > this->vertices[i].getArestas()[j].getPeso() + this->d[i]) {
-            d[this->vertices[i].getArestas()[j].getVerticeDestino()] = this->vertices[i].getArestas()[j].getPeso() + this->d[i];
+          if (this->d[this->vertices[i].getArestas()[j].getVerticeDestino()] > this->vertices[i].getArestas()[j].getPeso() + this->d[i]) {
+            this->d[this->vertices[i].getArestas()[j].getVerticeDestino()] = this->vertices[i].getArestas()[j].getPeso() + this->d[i];
             pai[this->vertices[i].getArestas()[j].getVerticeDestino()] = i;
           }
         }
@@ -162,7 +154,8 @@ bool Grafo::bellmanFord(int origem) {
     }
     cout << "origem: " << origem << endl;
     for (int i = 0;i < this->quantVertices;i++) {
-      cout << "destino: " << i << " dist.: " << d[i] << " caminho: ";
+      cout << "pai: " << pai[i] << " ";
+      cout << "destino: " << i << " dist.: " << this->d[i] << " caminho: ";
       this->showBellmanFord(pai, i, origem);
       if (i != pai[i]) 
         cout <<  " - " << i;
@@ -182,11 +175,11 @@ bool Grafo::bellmanFord(int origem) {
  * Entrada:      vetor de pai, posicao e atual.
  * Pré-condição: Nenhum.
  */
-void Grafo::showBellmanFord(int* vet, int pos, int inicial) {
-  if (vet[pos] == inicial) {
+void Grafo::showBellmanFord(int* vet, int pos, int origem) {
+  if (vet[pos] == origem) {
     cout << vet[pos];
   }else {
-    showBellmanFord(vet, vet[pos], inicial);
+    showBellmanFord(vet, vet[pos], origem);
     cout << " - "<< vet[pos];
   }
 }
@@ -195,36 +188,40 @@ void Grafo::showBellmanFord(int* vet, int pos, int inicial) {
  * Pré-condição: Grafo estar previamente montado.
  */
 void Grafo::kruskal() {
-  int countQuantArestas = 0;
-  listaAresta *listaARESTA = new listaAresta();
-  //Copia todas as arestas para uma lista encadeada.
-  for (int i = 0;i < this->quantVertices;i++) {
-    for (int j = 0;j < this->getVertice(i)->getQuantArestas();j++, countQuantArestas++) {
-      listaARESTA->queue(this->getVertice(i)->getArestas()[j]);
+  if (this->orientado) {
+    cout << "Grafo orientado." << endl;
+  }else{
+    int countQuantArestas = 0;
+    listaAresta *listaARESTA = new listaAresta();
+    //Copia todas as arestas para uma lista encadeada.
+    for (int i = 0;i < this->quantVertices;i++) {
+      for (int j = 0;j < this->getVertice(i)->getQuantArestas();j++, countQuantArestas++) {
+        listaARESTA->queue(this->getVertice(i)->getArestas()[j]);
+      }
     }
-  }
-  Aresta arestas[countQuantArestas + 1];
-  arestas[0].setPeso(listaARESTA->show().getPeso());
-  arestas[0].setVerticeAtual(listaARESTA->show().getVerticeAtual());
-  arestas[0].setVerticeDestino(listaARESTA->show().getVerticeDestino());
-  listaARESTA->dequeue();
-  int j = 1;
-  for (int i = 1;i < countQuantArestas && j < quantVertices;i++) {
-    if (!this->busca(listaARESTA->show().getVerticeAtual(), listaARESTA->show().getVerticeDestino(), arestas, j,0)) {
-      arestas[j].setPeso(listaARESTA->show().getPeso());
-      arestas[j].setVerticeAtual(listaARESTA->show().getVerticeAtual());
-      arestas[j].setVerticeDestino(listaARESTA->show().getVerticeDestino());
-      j++;
-    }
+    Aresta arestas[countQuantArestas + 1];
+    arestas[0].setPeso(listaARESTA->show().getPeso());
+    arestas[0].setVerticeAtual(listaARESTA->show().getVerticeAtual());
+    arestas[0].setVerticeDestino(listaARESTA->show().getVerticeDestino());
     listaARESTA->dequeue();
-  }
-  int peso = 0;
-  for (int k = 0;k < j;k++) {
-    peso += arestas[k].getPeso();
-  }
-  cout << "peso total: "<< peso << endl << "arestas: ";
-  for (int k = 0;k < j;k++) {
-    cout << "(" << arestas[k].getVerticeAtual() << "," << arestas[k].getVerticeDestino() << ") ";
+    int j = 1;
+    for (int i = 1;i < countQuantArestas && j < quantVertices;i++) {
+      if (!this->busca(listaARESTA->show().getVerticeAtual(), listaARESTA->show().getVerticeDestino(), arestas, j,0)) {
+        arestas[j].setPeso(listaARESTA->show().getPeso());
+        arestas[j].setVerticeAtual(listaARESTA->show().getVerticeAtual());
+        arestas[j].setVerticeDestino(listaARESTA->show().getVerticeDestino());
+        j++;
+      }
+      listaARESTA->dequeue();
+    }
+    int peso = 0;
+    for (int k = 0;k < j;k++) {
+      peso += arestas[k].getPeso();
+    }
+    cout << "peso total: "<< peso << endl << "arestas: ";
+    for (int k = 0;k < j;k++) {
+      cout << "(" << arestas[k].getVerticeAtual() << "," << arestas[k].getVerticeDestino() << ") ";
+    }
   }
 }
 /* Metodo auxiliar para verificar se a vertice pertence ao menor grafo gerador
