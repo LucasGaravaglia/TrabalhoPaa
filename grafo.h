@@ -63,7 +63,7 @@ public:
  * Entrada:      Nenhum.
  * Pré-condição: Grafo estar previamente montado.
  */
-  void showBellmanFord(int* vet, int pos, int origem);
+  void showBellmanFord(int* vet, int pos, int origem,bool* check);
 /* Metodo responsável por gerar uma arvore geradora minima.
  * Entrada:      Nenhum.
  * Pré-condição: Grafo estar previamente montado.

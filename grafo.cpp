@@ -133,7 +133,7 @@ void Grafo::buscaLargura(int origem) {
 bool Grafo::bellmanFord(int origem) {
   if (!this->orientado) {
     cout << "Grafo nao orientado." << endl;
-    return 0;
+    return 1;
   }else {
     int pai[this->quantVertices] = {};
     this->d = new int[this->quantVertices];
@@ -152,11 +152,18 @@ bool Grafo::bellmanFord(int origem) {
         }
       }
     }
+    bool check[this->quantVertices];
     cout << "origem: " << origem << endl;
     for (int i = 0;i < this->quantVertices;i++) {
-      cout << "pai: " << pai[i] << " ";
-      cout << "destino: " << i << " dist.: " << this->d[i] << " caminho: ";
-      this->showBellmanFord(pai, i, origem);
+      for (int posCheck = 0;posCheck < this->quantVertices;posCheck++) {
+        check[posCheck] = false;
+      }
+      if(this->d[i] >= inf){
+        cout << "destino: " << i << " dist.: Infinito caminho: ";
+      }else{
+        cout << "destino: " << i << " dist.: " << this->d[i] << " caminho: ";
+      }
+      this->showBellmanFord(pai, i, origem, check);
       if (i != pai[i]) 
         cout <<  " - " << i;
       cout << endl;
@@ -175,12 +182,17 @@ bool Grafo::bellmanFord(int origem) {
  * Entrada:      vetor de pai, posicao e atual.
  * Pré-condição: Nenhum.
  */
-void Grafo::showBellmanFord(int* vet, int pos, int origem) {
-  if (vet[pos] == origem) {
-    cout << vet[pos];
+void Grafo::showBellmanFord(int* vet, int pos, int origem, bool* check) {
+  if(!check[vet[pos]]){
+    if (vet[pos] == origem) {
+      cout << vet[pos];
+    }else {
+      check[pos] = true;
+      showBellmanFord(vet, vet[pos], origem, check);
+      cout << " - " << vet[pos];
+    }
   }else {
-    showBellmanFord(vet, vet[pos], origem);
-    cout << " - "<< vet[pos];
+    cout << vet[pos];
   }
 }
 /* Metodo responsável por gerar uma arvore geradora minima.
